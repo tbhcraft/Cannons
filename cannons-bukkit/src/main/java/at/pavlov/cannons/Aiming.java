@@ -583,10 +583,7 @@ public class Aiming {
                     continue;
                 }
 
-                Location playerLoc = player.getLocation();
-                GunAngles angles = GunAngles.getGunAngle(cannon, playerLoc.getYaw(), playerLoc.getPitch());
-                double stepSize = cannon.getCannonDesign().getAngleStepSize();
-                if (!setHorizontalAngle(cannon, angles, stepSize) || !setVerticalAngle(cannon, angles, stepSize))
+                if (!cannon.canAimYaw(player.getEyeLocation().getYaw()))
                 {
                     continue;
                 }
@@ -1078,10 +1075,7 @@ public class Aiming {
                 }
 
                 if(fire){
-                    Location playerLoc = player.getLocation();
-                    GunAngles angles = GunAngles.getGunAngle(cannon, playerLoc.getYaw(), playerLoc.getPitch());
-                    double stepSize = cannon.getCannonDesign().getAngleStepSize();
-                    if (!setHorizontalAngle(cannon, angles, stepSize) || !setVerticalAngle(cannon, angles, stepSize))
+                    if (!cannon.canAimYaw(player.getEyeLocation().getYaw()))
                     {
                         plugin.logDebug("Cannon: " + cannon.getCannonName() + " Can See Target: " + false);
                         continue;
