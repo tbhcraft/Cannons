@@ -156,6 +156,7 @@ import org.bukkit.plugin.Plugin;
 	//accessRestriction
 	private boolean accessForOwnerOnly;
 	private boolean needsShip;
+	private boolean ignoreAngleInCraftAim;
 	private int firepower;
 	private List<String> craftFireBlacklist;
 	
@@ -624,6 +625,8 @@ import org.bukkit.plugin.Plugin;
 	}
 
 	public boolean isNeedsShip() { return needsShip; }
+
+	public boolean getIgnoreAngleInCraftAim() { return ignoreAngleInCraftAim; }
 
 	public int getFirePower() {return firepower;}
 

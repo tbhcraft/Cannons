@@ -583,7 +583,7 @@ public class Aiming {
                     continue;
                 }
 
-                if (!cannon.canAimYaw(player.getEyeLocation().getYaw()))
+                if (!cannon.canAimYaw(player.getEyeLocation().getYaw()) && !cannon.getCannonDesign().getIgnoreAngleInCraftAim())
                 {
                     continue;
                 }
