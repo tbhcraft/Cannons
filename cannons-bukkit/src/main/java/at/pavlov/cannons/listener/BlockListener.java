@@ -8,13 +8,18 @@ import at.pavlov.cannons.cannon.CannonManager;
 import at.pavlov.cannons.multiversion.EventResolver;
 import at.pavlov.cannons.utils.CannonSelector;
 import at.pavlov.cannons.utils.EventUtils;
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.event.actions.TownyActionEvent;
+import com.palmergames.bukkit.towny.event.executors.TownyActionEventExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.WallSign;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
@@ -149,13 +154,14 @@ public class BlockListener implements Listener {
      *
      * @param event - BlockBreakEvent
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = false)
     public void blockBreak(BlockBreakEvent event) {
 
         Block block = event.getBlock();
         Location location = block.getLocation();
         Cannon cannon = cannonManager.getCannon(block.getLocation(), null);
-
+        Player player = event.getPlayer();
+        boolean candestroy = TownyActionEventExecutor.canDestroy(event.getPlayer(), block.getLocation(), block.getType());
 
         if (cannon != null) {
             //breaking is only allowed when the barrel is broken - minor stuff as buttons are canceled
@@ -165,7 +171,7 @@ public class BlockListener implements Listener {
             if (Aiming.getInstance().isInAimingMode(event.getPlayer().getUniqueId()))
                 aimingCannon = Aiming.getInstance().getCannonInAimingMode(event.getPlayer());
 
-            if (cannon.isDestructibleBlock(location) && (!cannon.equals(aimingCannon)) && !CannonSelector.getInstance().isSelectingMode(event.getPlayer())) {
+            if (cannon.isDestructibleBlock(location) && (!cannon.equals(aimingCannon)) && !CannonSelector.getInstance().isSelectingMode(event.getPlayer()) && !cannon.isOnShip() && candestroy) {
                 cannonManager.removeCannon(cannon, false, true, BreakCause.PlayerBreak);
                 plugin.logDebug("cannon broken:  " + cannon.isDestructibleBlock(location));
             } else {
