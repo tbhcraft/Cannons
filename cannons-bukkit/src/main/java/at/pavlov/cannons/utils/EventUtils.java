@@ -3,7 +3,12 @@ package at.pavlov.cannons.utils;
 import at.pavlov.cannons.Enum.BreakCause;
 import at.pavlov.cannons.cannon.Cannon;
 import at.pavlov.cannons.cannon.CannonManager;
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.object.Town;
+import com.palmergames.bukkit.towny.object.WorldCoord;
 import org.bukkit.block.Block;
+import com.palmergames.bukkit.towny.object.TownBlock;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,12 +28,15 @@ public class EventUtils {
         // first search if a barrel block was destroyed.
         for (Block block : blocklist) {
             Cannon cannon = cannonManager.getCannon(block.getLocation(), null);
-
+            TownBlock townBlock = TownyAPI.getInstance().getTownBlock(block.getLocation());
             // if it is a cannon block
             if (cannon == null) {
                 continue;
             }
 
+            if (townBlock != null && !townBlock.getPermissions().explosion) {
+                continue;
+            }
             if (cannon.isDestructibleBlock(block.getLocation())) {
                 //this cannon is destroyed
                 remove.add(cannon.getUID());
