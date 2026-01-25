@@ -1075,7 +1075,7 @@ public class Aiming {
                 }
 
                 if(fire){
-                    if (!cannon.canAimYaw(player.getEyeLocation().getYaw()))
+                    if (!cannon.canAimYaw(player.getEyeLocation().getYaw()) && !cannon.getCannonDesign().getIgnoreAngleInCraftAim())
                     {
                         plugin.logDebug("Cannon: " + cannon.getCannonName() + " Can See Target: " + false);
                         continue;
