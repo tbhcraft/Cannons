@@ -7,6 +7,7 @@ import at.pavlov.cannons.projectile.ProjectileManager;
 import at.pavlov.cannons.utils.EventUtils;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -39,7 +40,7 @@ public class EntityListener implements Listener {
      * handles the explosion event. Protects the buttons and torches of a cannon, because they break easily
      * @param event
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void EntityExplode(EntityExplodeEvent event) {
         plugin.logDebug("Explode event listener called");
 
